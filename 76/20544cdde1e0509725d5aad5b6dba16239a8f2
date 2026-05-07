@@ -1,0 +1,23 @@
+src/render/plan.ts
+  s_7f3545699986c1::t_806708382be6f2 9-40
+src/render/plan-builder.ts
+  s_7f3545699986c1::t_bd2e7fd9482ecb 1-87
+src/render/plan-builder.test.ts
+  s_7f3545699986c1::t_e8cba43b0e0094 1-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "7620544cdde1e0509725d5aad5b6dba16239a8f2",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
