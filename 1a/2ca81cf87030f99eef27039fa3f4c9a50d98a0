@@ -1,0 +1,62 @@
+vitest.config.ts
+  s_7f3545699986c1::t_4165c052c2452f 1-15
+.prettierrc.json
+  s_7f3545699986c1::t_64ea4f3098d44c 1-10
+tsconfig.json
+  s_7f3545699986c1::t_4cdc0d7184df47 1-6,8-27,29,32
+  s_7f3545699986c1::t_1dd0f968e47f99 7,28,30-31
+.husky/pre-commit
+  s_7f3545699986c1::t_fd087330bda46e 1
+.prettierignore
+  s_7f3545699986c1::t_f8a1c8087fc966 1-7
+eslint.config.js
+  s_7f3545699986c1::t_3f801fffc2ee94 1-28
+package.json
+  s_7f3545699986c1::t_d84332570b3c6b 25,27-30,42
+  s_7f3545699986c1::t_85acb4c5fab531 7,12,15
+  s_7f3545699986c1::t_31bee768cd44d7 54
+  s_7f3545699986c1::t_239535cbc025bb 65-67
+  s_7f3545699986c1::t_20202220a978a5 1-6,8-11,13-14,16-24,26,31-41,43-53,55-64,68-69
+.github/workflows/ci.yml
+  s_7f3545699986c1::t_30a10a8bde97ac 1-39
+LICENSE
+  s_7f3545699986c1::t_f9eacf34c54e80 1-21
+.vscode/extensions.json
+  s_7f3545699986c1::t_ab8854be411026 1-8
+.github/workflows/release.yml
+  s_7f3545699986c1::t_36d768639e6ec1 14-15,23-29,40,45,49,52-56,60-62,64-65,68-80,82-85,91-97,99-101,104-157,159-160,162,164-165,167-190,194,196-199
+  s_7f3545699986c1::t_f25b3cfc6fd238 98,102-103
+  s_7f3545699986c1::t_9affbf7b57628d 1-13,16-22,30-39,41-44,46-48,50-51,57-59,63,66-67,81,86-90,158,161,163,166,191-193,195,200-201
+tsup.config.ts
+  s_7f3545699986c1::t_677bf912f8dd1f 1-4,6-14
+  s_7f3545699986c1::t_64058738b4b3ef 5
+README.md
+  s_7f3545699986c1::t_028015583dadd9 3,16,18,26,31,37,39-40,42-45,47,49,51-59
+  s_7f3545699986c1::t_b83130e95cf773 1-2,4-15,17,19-25,27-30,32-36,38,41,46,48,50
+.gitignore
+  s_7f3545699986c1::t_83c4ed318f0c75 1-23
+.vscode/settings.json
+  s_7f3545699986c1::t_9dcb79187792f3 1-36
+src/index.test.ts
+  s_7f3545699986c1::t_627716505b0b95 1,3-4,7-8
+  s_7f3545699986c1::t_d922dd11585114 2,5-6
+src/index.ts
+  s_7f3545699986c1::t_2989c370562465 3
+  s_7f3545699986c1::t_c25cb74396cb3b 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "1a2ca81cf87030f99eef27039fa3f4c9a50d98a0",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
