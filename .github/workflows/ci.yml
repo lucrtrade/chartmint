@@ -99,7 +99,7 @@ jobs:
           ls -lh "${TARBALL}"
 
       - name: Publish dry-run (with provenance)
-        run: npm publish "${{ steps.pack.outputs.tarball }}" --provenance --access public --dry-run
+        run: npm publish "${{ steps.pack.outputs.tarball }}" --provenance --access public --tag ci --dry-run
 
       - name: Restore version
         if: always() && steps.bump.outputs.original != ''
