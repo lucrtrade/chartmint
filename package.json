@@ -1,6 +1,6 @@
 {
   "name": "@lucrtrade/chartmint",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Chartmint library.",
   "license": "MIT",
   "type": "module",
@@ -29,7 +29,7 @@
     "url": "git+https://github.com/lucrtrade/chartmint.git"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsgo -p tsconfig.build.json",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -37,7 +37,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsgo --noEmit",
     "ci": "bun run format:check && bun run lint && bun run typecheck && bun run test",
     "prepare": "husky"
   },
@@ -53,6 +53,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.6.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260421.2",
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
