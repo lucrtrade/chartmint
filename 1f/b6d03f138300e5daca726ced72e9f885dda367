@@ -1,0 +1,24 @@
+tsup.config.ts
+  s_ca94d93678b3f9::t_f77b54ec5dcab1 6
+package.json
+  s_ca94d93678b3f9::t_8ed1dde43f5c5a 56
+  s_ca94d93678b3f9::t_1812b3ac9f156b 32,40
+tsconfig.build.json
+  s_ca94d93678b3f9::t_d097e1e669e02c 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "1fb6d03f138300e5daca726ced72e9f885dda367",
+  "prompts": {},
+  "sessions": {
+    "s_ca94d93678b3f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13da5c88-b084-4eef-9a47-2e142d78beca",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
