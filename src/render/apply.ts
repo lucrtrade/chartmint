@@ -4,6 +4,7 @@ import {
   createSeriesMarkers,
   type IChartApi,
   type ISeriesApi,
+  type ISeriesMarkersPluginApi,
   type ISeriesPrimitive,
   type SeriesMarker,
   type Time,
@@ -15,7 +16,7 @@ export type RenderHandles = {
   candleSeries: ISeriesApi<"Candlestick">;
   lineSeries: ISeriesApi<"Line">[];
   zonePrimitives: ISeriesPrimitive<Time>[];
-  markersHandle: ReturnType<typeof createSeriesMarkers>;
+  markersHandle: ISeriesMarkersPluginApi<Time>;
 };
 
 export function applyToChart(chart: IChartApi, plan: RenderPlan): RenderHandles {
@@ -64,7 +65,7 @@ export function applyToChart(chart: IChartApi, plan: RenderPlan): RenderHandles 
     color: m.color ?? "#3b82f6",
     text: m.text,
   }));
-  const markersHandle = createSeriesMarkers(candleSeries, markers);
+  const markersHandle = createSeriesMarkers<Time>(candleSeries, markers);
 
   return { candleSeries, lineSeries, zonePrimitives, markersHandle };
 }
