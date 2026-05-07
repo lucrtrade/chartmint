@@ -107,7 +107,7 @@ jobs:
           tar -tzf "${TARBALL}"
 
       - name: Upload tarball artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: npm-package-${{ needs.check.outputs.version }}
           path: ${{ steps.pack.outputs.tarball }}
