@@ -1,0 +1,25 @@
+src/generator/transitions.test.ts
+  s_7f3545699986c1::t_069645766f108c 1-42
+src/generator/derive.ts
+  s_7f3545699986c1::t_61195bda0dfa84 1-16
+src/generator/transitions.ts
+  s_7f3545699986c1::t_88790c42ef8f87 1-21
+src/generator/derive.test.ts
+  s_7f3545699986c1::t_c802971c989dd1 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "4181a6999c17756b8ddb7d2685b96d6f631457a9",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
