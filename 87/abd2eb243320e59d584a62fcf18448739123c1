@@ -1,0 +1,22 @@
+src/dsl/parser.test.ts
+  s_7f3545699986c1::t_f56641194e10ba 1-38,40-82,84-114
+  ai_agent 39,83
+src/dsl/parser.ts
+  s_7f3545699986c1::t_a4f68e1d9ca604 1-453
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "87abd2eb243320e59d584a62fcf18448739123c1",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
