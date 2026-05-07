@@ -187,7 +187,7 @@ jobs:
       - name: List release assets
         run: ls -lhR release-assets
 
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.check.outputs.tag }}
           name: ${{ needs.check.outputs.tag }}
