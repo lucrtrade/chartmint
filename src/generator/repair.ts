@@ -37,15 +37,17 @@ function singleBarFieldTarget(expr: Expr): FieldTarget | null {
 }
 
 function solveDelta(op: CompareOp, l: number, r: number, eps: number): number | null {
+  // Returns the SIGNED delta to apply to rhs to satisfy `l <op> r`.
+  // (Caller negates the sign when nudging lhs instead.)
   switch (op) {
     case "<":
-      return r - l > 0 ? 0 : l - r + eps;
+      return l < r ? 0 : l - r + eps;
     case "<=":
-      return r - l >= 0 ? 0 : l - r + eps;
+      return l <= r ? 0 : l - r + eps;
     case ">":
-      return l - r > 0 ? 0 : r - l + eps;
+      return l > r ? 0 : l - r - eps;
     case ">=":
-      return l - r >= 0 ? 0 : r - l + eps;
+      return l >= r ? 0 : l - r - eps;
     case "=":
       return l === r ? 0 : l - r;
     default:
