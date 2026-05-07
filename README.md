@@ -1,5 +1,7 @@
 # @lucrtrade/chartmint
 
+[![CI](https://github.com/lucrtrade/chartmint/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/lucrtrade/chartmint/actions/workflows/ci.yml) [![npm version](https://img.shields.io/npm/v/%40lucrtrade%2Fchartmint)](https://www.npmjs.com/package/@lucrtrade/chartmint) [![license](https://img.shields.io/npm/l/%40lucrtrade%2Fchartmint)](https://www.npmjs.com/package/@lucrtrade/chartmint) [![bundle size](https://img.shields.io/bundlephobia/minzip/%40lucrtrade%2Fchartmint)](https://bundlephobia.com/package/@lucrtrade/chartmint) [![NPM Last Update](https://img.shields.io/npm/last-update/%40lucrtrade%2Fchartmint)](https://www.npmjs.com/package/@lucrtrade/chartmint)
+
 A TypeScript ESM library scaffolded with Bun. Built on [`lightweight-charts`](https://www.npmjs.com/package/lightweight-charts).
 
 ## Install

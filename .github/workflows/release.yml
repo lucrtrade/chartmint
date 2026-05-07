@@ -112,7 +112,7 @@ jobs:
           name: npm-package-${{ needs.check.outputs.version }}
           path: ${{ steps.pack.outputs.tarball }}
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 15
 
   publish-npm:
     name: Publish to npm (Trusted Publishing)
