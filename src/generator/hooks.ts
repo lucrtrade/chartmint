@@ -35,16 +35,16 @@ function apply(hint: ShapeHint, ctx: HookContext): void {
       const a = getBar(hint.left, ctx);
       const b = getBar(hint.right, ctx);
       const eps = mid(a) * ctx.tolerance;
-      b.high = a.high + (Math.random() < 0.5 ? -eps : eps);
-      reorderHighLow(b);
+      const targetHigh = a.high - eps;
+      shiftBarTo(b, "high", targetHigh);
       return;
     }
     case "equal_lows": {
       const a = getBar(hint.left, ctx);
       const b = getBar(hint.right, ctx);
       const eps = mid(a) * ctx.tolerance;
-      b.low = a.low + (Math.random() < 0.5 ? -eps : eps);
-      reorderHighLow(b);
+      const targetLow = a.low + eps;
+      shiftBarTo(b, "low", targetLow);
       return;
     }
   }
@@ -94,6 +94,14 @@ function impulsive(b: Candle, ctx: HookContext): void {
   b.close = center + targetBody / 2;
   b.high = b.close + wick;
   b.low = b.open - wick;
+}
+
+function shiftBarTo(b: Candle, field: "high" | "low", target: number): void {
+  const shift = target - b[field];
+  b.open += shift;
+  b.high += shift;
+  b.low += shift;
+  b.close += shift;
 }
 
 function reorderHighLow(b: Candle): void {
