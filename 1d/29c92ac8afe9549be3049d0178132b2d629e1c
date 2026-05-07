@@ -1,0 +1,23 @@
+src/semantic/model.ts
+  s_7f3545699986c1::t_1aae90a29ea070 1-31
+src/semantic/compiler.ts
+  s_7f3545699986c1::t_8be9167051f035 1-147
+src/semantic/compiler.test.ts
+  s_7f3545699986c1::t_32bdefb12dbd7b 1-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "1d29c92ac8afe9549be3049d0178132b2d629e1c",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
