@@ -1,0 +1,21 @@
+src/render/apply.ts
+  s_7f3545699986c1::t_7fc4b969f074af 1-70
+src/render/apply.test.ts
+  s_7f3545699986c1::t_c8d61da7c054fe 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "c2ab0600b0d8eb3cad56da0eb2cd4e487830845a",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
