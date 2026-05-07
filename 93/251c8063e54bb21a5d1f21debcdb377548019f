@@ -1,0 +1,22 @@
+src/patterns/equal-highs.test.ts
+  s_7f3545699986c1::t_0ecdcb6abd31cb 1-51
+src/generator/hooks.ts
+  s_7f3545699986c1::t_5850c72bc9958a 38-39,46-47
+  s_7f3545699986c1::t_96fe770df65489 99-106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "93251c8063e54bb21a5d1f21debcdb377548019f",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
