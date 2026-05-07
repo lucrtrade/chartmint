@@ -1,0 +1,23 @@
+src/constraint/evaluator.test.ts
+  s_7f3545699986c1::t_e2196473a49bf0 1-90
+src/render/plan.ts
+  s_7f3545699986c1::t_4b4694369d585c 1-9
+src/constraint/evaluator.ts
+  s_7f3545699986c1::t_8666678c78b9eb 1-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "9e6c0a1e6c1e57882a2e34daa0d819e69156ee43",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
