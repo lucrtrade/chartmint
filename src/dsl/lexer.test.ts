@@ -17,8 +17,8 @@ describe("tokenize", () => {
       "newline",
       "eof",
     ]);
-    expect(tokens[0].value).toBe("pattern");
-    expect(tokens[1].value).toBe("foo");
+    expect(tokens[0]?.value).toBe("pattern");
+    expect(tokens[1]?.value).toBe("foo");
   });
 
   it("tracks line and column", () => {

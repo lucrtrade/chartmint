@@ -77,6 +77,15 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Bump version for dry-run
+        id: bump
+        run: |
+          ORIGINAL=$(node -p "require('./package.json').version")
+          NEW="${ORIGINAL}-ci.${{ github.run_id }}.${{ github.run_attempt }}"
+          npm version --no-git-tag-version "$NEW" >/dev/null
+          echo "original=${ORIGINAL}" >> "$GITHUB_OUTPUT"
+          echo "Bumped ${ORIGINAL} -> ${NEW} for dry-run"
+
       - name: Pack tarball
         id: pack
         run: |
@@ -91,3 +100,9 @@ jobs:
 
       - name: Publish dry-run (with provenance)
         run: npm publish "${{ steps.pack.outputs.tarball }}" --provenance --access public --dry-run
+
+      - name: Restore version
+        if: always() && steps.bump.outputs.original != ''
+        run: |
+          npm version --no-git-tag-version --allow-same-version "${{ steps.bump.outputs.original }}" >/dev/null
+          echo "Restored version to ${{ steps.bump.outputs.original }}"

@@ -48,6 +48,7 @@ describe("evaluateExpr", () => {
         op: "*" as const,
         lhs: { kind: "number" as const, value: 2, loc },
         rhs: { kind: "number" as const, value: 3, loc },
+        loc,
       },
       loc,
     };

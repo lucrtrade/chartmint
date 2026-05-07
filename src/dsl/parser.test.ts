@@ -60,11 +60,11 @@ describe("parse: statements", () => {
     expect(errors).toEqual([]);
     expect(program!.statements).toHaveLength(2);
     const [hintStmt, predStmt] = program!.statements;
-    expect(hintStmt!.kind).toBe("should");
-    if (hintStmt!.kind === "should") {
+    expect(hintStmt?.kind).toBe("should");
+    if (hintStmt?.kind === "should") {
       expect(hintStmt.preference.kind).toBe("hint");
     }
-    if (predStmt!.kind === "should") {
+    if (predStmt?.kind === "should") {
       expect(predStmt.preference.kind).toBe("predicate");
     }
   });
