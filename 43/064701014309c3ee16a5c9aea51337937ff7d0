@@ -1,0 +1,23 @@
+src/dsl/lexer.test.ts
+  s_7f3545699986c1::t_ec7e6f149247cb 1-7,18-69
+  ai_agent 8-17
+src/dsl/lexer.ts
+  ai_agent 4-20
+  s_7f3545699986c1::t_851d1d2b1a25c1 1-3,21-140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "43064701014309c3ee16a5c9aea51337937ff7d0",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
