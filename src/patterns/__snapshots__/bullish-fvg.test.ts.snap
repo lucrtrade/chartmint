@@ -1,0 +1,42 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`bullish_fvg > snapshot for seed=42 1`] = `
+{
+  "derived": {
+    "levels": {},
+    "zones": {
+      "gap": {
+        "high": 103.6455934785,
+        "low": 103.542567,
+      },
+    },
+  },
+  "lastThree": [
+    {
+      "close": 102.539558,
+      "high": 103.542567,
+      "low": 102.336329,
+      "open": 103.212683,
+      "time": 28,
+    },
+    {
+      "close": 102.797365,
+      "high": 102.86677457692308,
+      "low": 102.47014842307692,
+      "open": 102.539558,
+      "time": 29,
+    },
+    {
+      "close": 103.71845947850001,
+      "high": 104.1027944785,
+      "low": 103.6455934785,
+      "open": 103.9325684785,
+      "time": 30,
+    },
+  ],
+  "seed": 42,
+  "verification": [
+    true,
+  ],
+}
+`;
