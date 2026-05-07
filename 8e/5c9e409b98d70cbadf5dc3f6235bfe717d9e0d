@@ -1,0 +1,21 @@
+src/errors.test.ts
+  s_7f3545699986c1::t_d130e21174caa6 1-54
+src/errors.ts
+  s_7f3545699986c1::t_31279e941a2ad0 1-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "8e5c9e409b98d70cbadf5dc3f6235bfe717d9e0d",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
