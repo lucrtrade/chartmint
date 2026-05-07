@@ -95,7 +95,11 @@ jobs:
       - name: Pack tarball
         id: pack
         run: |
-          TARBALL=$(bun pm pack --ignore-scripts --quiet)
+          TARBALL=$(bun pm pack --ignore-scripts --quiet | tail -n 1 | tr -d '[:space:]')
+          if [ -z "$TARBALL" ] || [ ! -f "$TARBALL" ]; then
+            echo "::error::Failed to determine tarball filename from 'bun pm pack' output"
+            exit 1
+          fi
           echo "tarball=${TARBALL}" >> "$GITHUB_OUTPUT"
           echo "Packed: ${TARBALL}"
           ls -lh "${TARBALL}"

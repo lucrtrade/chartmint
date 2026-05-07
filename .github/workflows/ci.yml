@@ -26,6 +26,14 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Check package.json (npm pkg fix)
+        run: |
+          npm pkg fix
+          git diff --exit-code package.json || {
+            echo "::error::package.json has issues that 'npm pkg fix' would change. Run 'npm pkg fix' locally and commit the result."
+            exit 1
+          }
+
       - name: Format check
         run: bun run format:check
 
