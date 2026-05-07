@@ -1,0 +1,19 @@
+README.md
+  s_7f3545699986c1::t_a17bc8fc1ba53b 5-7,15-17,20,23-27,29-31,34,36-43,46-74,76,78,80-82,84,86-108,110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "887c3ab850ab595bd87e09e2faaa507c535aa6fb",
+  "prompts": {},
+  "sessions": {
+    "s_7f3545699986c1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b4d96479-bc91-4d0f-a289-6cf29213c74a",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
