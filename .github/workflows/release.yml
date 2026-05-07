@@ -1,0 +1,201 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+concurrency:
+  group: release-${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check release
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'main') ||
+      (github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      should_publish: ${{ steps.gate.outputs.should_publish }}
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+      name: ${{ steps.version.outputs.name }}
+      ref: ${{ steps.context.outputs.ref }}
+    steps:
+      - name: Resolve release context
+        id: context
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            echo "ref=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.context.outputs.ref }}
+          fetch-depth: 0
+
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          NAME=$(node -p "require('./package.json').name")
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "name=${NAME}" >> "$GITHUB_OUTPUT"
+          echo "Package: ${NAME}@${VERSION}"
+
+      - name: Gate on existing GitHub release
+        id: gate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "${{ steps.version.outputs.tag }}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "Release ${{ steps.version.outputs.tag }} already exists, skipping."
+          else
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "Release ${{ steps.version.outputs.tag }} does not exist, will publish."
+          fi
+
+  build:
+    name: Build & pack
+    needs: check
+    if: needs.check.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      tarball: ${{ steps.pack.outputs.tarball }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.check.outputs.ref }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Test
+        run: bun run test
+
+      - name: Pack tarball
+        id: pack
+        run: |
+          TARBALL=$(bun pm pack --ignore-scripts --quiet)
+          echo "tarball=${TARBALL}" >> "$GITHUB_OUTPUT"
+          echo "Packed: ${TARBALL}"
+          ls -lh "${TARBALL}"
+          echo "--- tarball contents ---"
+          tar -tzf "${TARBALL}"
+
+      - name: Upload tarball artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-package-${{ needs.check.outputs.version }}
+          path: ${{ steps.pack.outputs.tarball }}
+          if-no-files-found: error
+          retention-days: 30
+
+  publish-npm:
+    name: Publish to npm (Trusted Publishing)
+    needs: [check, build]
+    if: needs.check.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Ensure npm supports trusted publishing
+        run: |
+          npm install -g npm@latest
+          npm --version
+
+      - name: Download tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: npm-package-${{ needs.check.outputs.version }}
+
+      - name: Publish
+        run: npm publish "${{ needs.build.outputs.tarball }}" --provenance --access public
+
+  publish-github-packages:
+    name: Publish to GitHub Packages
+    needs: [check, build]
+    if: needs.check.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@lucrtrade"
+          package-manager-cache: false
+
+      - name: Download tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: npm-package-${{ needs.check.outputs.version }}
+
+      - name: Publish
+        run: npm publish "${{ needs.build.outputs.tarball }}" --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    name: Create GitHub release
+    needs: [check, build, publish-npm, publish-github-packages]
+    if: needs.check.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: npm-package-${{ needs.check.outputs.version }}
+          path: release-assets
+
+      - name: List release assets
+        run: ls -lhR release-assets
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.check.outputs.tag }}
+          name: ${{ needs.check.outputs.tag }}
+          target_commitish: ${{ needs.check.outputs.ref }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: release-assets/${{ needs.build.outputs.tarball }}
+          body: |
+            Released `${{ needs.check.outputs.name }}@${{ needs.check.outputs.version }}`.
+
+            - npm: https://www.npmjs.com/package/${{ needs.check.outputs.name }}/v/${{ needs.check.outputs.version }}
+            - GitHub Packages: https://github.com/${{ github.repository }}/pkgs/npm/${{ needs.check.outputs.name == '@lucrtrade/chartmint' && 'chartmint' || needs.check.outputs.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
