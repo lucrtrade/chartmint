@@ -105,4 +105,28 @@ series 10
     const r = generate(template, {});
     expect(r.refs.a).toBe(r.bars.length - 1);
   });
+
+  it("last bar time equals endTime when endTime is provided", () => {
+    const compiled = compile("pattern p\nbars a\nseed 1\nseries 10\n");
+    const endTime = 1_700_000_000;
+    const r = generate(compiled, { endTime, timeframe: 3600 });
+    expect(r.bars[r.bars.length - 1]!.time).toBe(endTime);
+  });
+
+  it("bars are spaced by timeframe seconds", () => {
+    const compiled = compile("pattern p\nbars a\nseed 1\nseries 5\n");
+    const endTime = 1_000_000;
+    const timeframe = 900;
+    const r = generate(compiled, { endTime, timeframe });
+    const times = r.bars.map((b) => b.time);
+    for (let i = 1; i < times.length; i++) {
+      expect(times[i]! - times[i - 1]!).toBe(timeframe);
+    }
+  });
+
+  it("defaults to sequential integers when no timeframe given", () => {
+    const compiled = compile("pattern p\nbars a\nseed 1\nseries 4\n");
+    const r = generate(compiled, {});
+    expect(r.bars.map((b) => b.time)).toEqual([1, 2, 3, 4]);
+  });
 });

@@ -21,6 +21,8 @@ export type PatternTemplate = {
 export type GenerateOptions = {
   seed?: number;
   tolerance?: { equalPrice?: number };
+  timeframe?: number;
+  endTime?: number;
 };
 
 export type GenerateResult = {
@@ -49,7 +51,7 @@ export function generate(
   const model = compiled.semantic;
   const seed = resolveSeed(model, opts);
 
-  const bars = generateBaseSeries(seed, model.series);
+  const bars = generateBaseSeries(seed, model.series, 100, opts.timeframe, opts.endTime);
   const refs = resolveRefs(bars, model.bars, model.locates);
 
   const tolerance = opts.tolerance?.equalPrice ?? 0.001;

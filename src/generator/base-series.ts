@@ -11,7 +11,13 @@ export function mulberry32(seed: number): () => number {
   };
 }
 
-export function generateBaseSeries(seed: number, count: number, basePrice = 100): Candle[] {
+export function generateBaseSeries(
+  seed: number,
+  count: number,
+  basePrice = 100,
+  timeframe?: number,
+  endTime?: number,
+): Candle[] {
   const rnd = mulberry32(seed);
   const bars: Candle[] = [];
   let price = basePrice;
@@ -22,8 +28,12 @@ export function generateBaseSeries(seed: number, count: number, basePrice = 100)
     const wick = Math.max(0.1, rnd() * 1.5);
     const high = Math.max(open, close) + wick * rnd();
     const low = Math.min(open, close) - wick * rnd();
+    const time =
+      timeframe !== undefined && endTime !== undefined
+        ? endTime - (count - 1 - i) * timeframe
+        : i + 1;
     bars.push({
-      time: i + 1,
+      time,
       open: round(open),
       high: round(high),
       low: round(low),

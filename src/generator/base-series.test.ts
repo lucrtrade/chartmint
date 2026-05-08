@@ -28,8 +28,39 @@ describe("generateBaseSeries", () => {
     expect(generateBaseSeries(42, 5)).toEqual(generateBaseSeries(42, 5));
   });
 
-  it("uses sequential times", () => {
+  it("uses sequential times starting at 1 by default (legacy behaviour)", () => {
     const bars = generateBaseSeries(7, 4);
     expect(bars.map((b) => b.time)).toEqual([1, 2, 3, 4]);
+  });
+
+  it("spaces bars by timeframe seconds when endTime and timeframe are given", () => {
+    const endTime = 1_000_000;
+    const timeframe = 3600;
+    const bars = generateBaseSeries(7, 4, 100, timeframe, endTime);
+    const times = bars.map((b) => b.time);
+    expect(times[3]).toBe(endTime);
+    expect(times[2]).toBe(endTime - timeframe);
+    expect(times[1]).toBe(endTime - 2 * timeframe);
+    expect(times[0]).toBe(endTime - 3 * timeframe);
+  });
+
+  it("works with daily timeframe", () => {
+    const endTime = 1_700_000_000;
+    const day = 86400;
+    const bars = generateBaseSeries(1, 3, 100, day, endTime);
+    expect(bars[2]!.time).toBe(endTime);
+    expect(bars[1]!.time).toBe(endTime - day);
+    expect(bars[0]!.time).toBe(endTime - 2 * day);
+  });
+
+  it("ohlc values are unchanged when timeframe/endTime change", () => {
+    const base = generateBaseSeries(42, 5);
+    const withTime = generateBaseSeries(42, 5, 100, 3600, 1_000_000);
+    for (let i = 0; i < 5; i++) {
+      expect(withTime[i]!.open).toBe(base[i]!.open);
+      expect(withTime[i]!.high).toBe(base[i]!.high);
+      expect(withTime[i]!.low).toBe(base[i]!.low);
+      expect(withTime[i]!.close).toBe(base[i]!.close);
+    }
   });
 });
