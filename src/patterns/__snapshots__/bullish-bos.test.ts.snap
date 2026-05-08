@@ -1,33 +1,4 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`bullish_bos > snapshot for seed=42 1`] = `
-{
-  "brk": {
-    "close": 103.395378785,
-    "high": 103.67668805000001,
-    "low": 101.80129294999999,
-    "open": 102.082602215,
-    "time": 1778198400,
-  },
-  "derived": {
-    "levels": {
-      "bos": 102.562881,
-    },
-    "zones": {},
-  },
-  "prev": {
-    "close": 101.986178,
-    "high": 102.562881,
-    "low": 100.270133,
-    "open": 100.998155,
-    "time": 1777593600,
-  },
-  "seed": 42,
-  "verification": [
-    true,
-  ],
-}
-`;
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
 exports[`bullish_bos snapshot for seed=42 1`] = `
 {
@@ -36,7 +7,7 @@ exports[`bullish_bos snapshot for seed=42 1`] = `
     "high": 103.67668805000001,
     "low": 101.80129294999999,
     "open": 102.082602215,
-    "time": 1778198400,
+    "time": 1700000000,
   },
   "derived": {
     "levels": {
@@ -49,7 +20,7 @@ exports[`bullish_bos snapshot for seed=42 1`] = `
     "high": 102.562881,
     "low": 100.270133,
     "open": 100.998155,
-    "time": 1777593600,
+    "time": 1699395200,
   },
   "seed": 42,
   "verification": [

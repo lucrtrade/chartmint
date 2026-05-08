@@ -1,30 +1,4 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`equal_highs > snapshot for seed=42 1`] = `
-{
-  "a": {
-    "close": 100.474001,
-    "high": 101.288159,
-    "low": 100.425829,
-    "open": 101.252114,
-    "time": 1776988800,
-  },
-  "b": {
-    "close": 100.753116006,
-    "high": 101.187302006,
-    "low": 99.441128006,
-    "open": 100.495309006,
-    "time": 1778112000,
-  },
-  "derived": {
-    "levels": {
-      "eqh": 101.288159,
-    },
-    "zones": {},
-  },
-  "seed": 42,
-}
-`;
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
 exports[`equal_highs snapshot for seed=42 1`] = `
 {
@@ -33,14 +7,14 @@ exports[`equal_highs snapshot for seed=42 1`] = `
     "high": 101.288159,
     "low": 100.425829,
     "open": 101.252114,
-    "time": 1776988800,
+    "time": 1698790400,
   },
   "b": {
     "close": 100.753116006,
     "high": 101.187302006,
     "low": 99.441128006,
     "open": 100.495309006,
-    "time": 1778112000,
+    "time": 1699913600,
   },
   "derived": {
     "levels": {

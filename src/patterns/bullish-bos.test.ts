@@ -9,7 +9,7 @@ import { bullishBos } from "./bullish-bos";
 
 describe("bullish_bos", () => {
   it("snapshot for seed=42", () => {
-    const r = generate(bullishBos, { seed: 42 });
+    const r = generate(bullishBos, { seed: 42, endTime: 1_700_000_000 });
     expect({
       seed: r.seed,
       prev: r.bars[r.refs.prev!],

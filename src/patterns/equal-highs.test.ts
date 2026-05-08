@@ -9,7 +9,7 @@ import { equalHighs } from "./equal-highs";
 
 describe("equal_highs", () => {
   it("snapshot for seed=42", () => {
-    const r = generate(equalHighs, { seed: 42 });
+    const r = generate(equalHighs, { seed: 42, endTime: 1_700_000_000 });
     expect({
       seed: r.seed,
       a: r.bars[r.refs.a!],

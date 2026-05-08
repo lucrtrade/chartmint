@@ -9,7 +9,7 @@ import { bullishFvg } from "./bullish-fvg";
 
 describe("bullish_fvg", () => {
   it("snapshot for seed=42", () => {
-    const r = generate(bullishFvg, { seed: 42 });
+    const r = generate(bullishFvg, { seed: 42, endTime: 1_700_000_000 });
     expect({
       seed: r.seed,
       lastThree: r.bars.slice(-3),
