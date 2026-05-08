@@ -1,0 +1,22 @@
+README.md
+  ai_agent 106-108
+  s_f51fa12faa99ae::t_c9d5f5fa8357da 88,102-105,109-127
+src/index.ts
+  s_f51fa12faa99ae::t_696e24941b95ab 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "692feecf16f17b27d11f17657a25f592cad0086b",
+  "prompts": {},
+  "sessions": {
+    "s_f51fa12faa99ae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ba0ae84-6466-4ecf-abce-388d62b9f690",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
