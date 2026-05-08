@@ -85,6 +85,7 @@ amber | blue | green | red | gray | white
 
 ```ts
 import {
+  version, // string — e.g. "0.0.8"
   compile, // (source: string) => CompileResult
   generate, // (specOrSource: CompileResult | string | PatternTemplate, opts?) => GenerateResult
   buildPlan, // (result: GenerateResult, model: SemanticModel) => RenderPlan
@@ -97,6 +98,33 @@ import {
 ```
 
 `compile` never throws — it returns `{ ast?, semantic?, errors: CompileError[] }`. `generate` throws `GenerationError(kind: "must_failed")` on a `must` failure that survives the one-shot repair pass; retry with a new seed.
+
+### `generate` options
+
+```ts
+type GenerateOptions = {
+  seed?: number; // fixed seed for reproducibility
+  timeframe?: number; // seconds per bar — default 86400 (daily)
+  endTime?: number; // Unix timestamp (seconds) of the last bar — default: today's UTC midnight
+  tolerance?: { equalPrice?: number };
+};
+```
+
+Bars are assigned real UTC timestamps. The last bar lands at `endTime`; earlier bars count back by `timeframe`. Passing `endTime` explicitly makes results fully deterministic across environments.
+
+### Dynamic module caching (CDN / browser)
+
+When loading chartmint dynamically, key your cache on `version` to avoid serving a stale module after a version upgrade:
+
+```js
+import { version } from "@lucrtrade/chartmint";
+
+const CACHE_KEY = `__chartmint_${version}`;
+if (!window[CACHE_KEY]) {
+  window[CACHE_KEY] = loadModule();
+}
+return window[CACHE_KEY];
+```
 
 ## Develop
 

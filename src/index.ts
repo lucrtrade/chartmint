@@ -1,3 +1,4 @@
+export { version } from "../package.json";
 export { compile, type CompileResult } from "./compile";
 export {
   generate,
