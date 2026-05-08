@@ -32,6 +32,7 @@
     "build": "tsup && tsgo -p tsconfig.build.json",
     "dev": "tsup --watch",
     "test": "vitest run",
+    "test:update": "vitest run -u",
     "test:watch": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
