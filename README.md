@@ -43,6 +43,31 @@ const result = generate(patterns.bullish_fvg, { seed: 42 });
 applyToChart(chart, buildPlan(result, compiled.semantic!));
 ```
 
+## Theme override
+
+`buildPlan` is the headless theme boundary. You can override the semantic DSL colors without changing the pattern source:
+
+```ts
+const plan = buildPlan(result, compiled.semantic!, {
+  palette: {
+    fill: {
+      amber: "#f59e0b33",
+    },
+    line: {
+      white: "#e5e7eb",
+      green: "#10b981",
+    },
+    defaults: {
+      zoneFill: "#f59e0b22",
+      levelLine: "#e5e7eb",
+      marker: "#38bdf8",
+    },
+  },
+});
+```
+
+`fill` and `line` are typed as partial semantic color maps keyed by `amber | blue | green | red | gray | white`. `defaults` apply when the DSL statement omits an explicit color.
+
 ## DSL surface (v0.1.0)
 
 ```txt
@@ -55,7 +80,7 @@ should <predicate | hint>
 derive <obj>.<prop> = <expr>
 when <predicate> then <obj>.<prop> = (<expr> | <ident>)
 draw <derived-name> as (box | line) [<color>]
-label <bar-id> as <text>
+label <bar-id> as <text> [<color>]
 
 # expressions
 <bar>.<open|high|low|close> | <number> | (body|range|mid)(<bar>) | <expr> (+|-|*|/) <expr>

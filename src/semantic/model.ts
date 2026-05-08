@@ -19,7 +19,7 @@ export type DrawSpec = {
   drawKind: DrawKind;
   color?: Color;
 };
-export type LabelSpec = { barRef: string; text: string };
+export type LabelSpec = { barRef: string; text: string; color?: Color };
 export type WhenThenSpec = { predicate: Predicate; assignment: Assignment };
 
 export type SemanticModel = {

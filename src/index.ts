@@ -7,7 +7,12 @@ export {
   type PatternTemplate,
   type RefMap,
 } from "./generator/generate";
-export { buildPlan } from "./render/plan-builder";
+export {
+  buildPlan,
+  DEFAULT_RENDER_PALETTE,
+  type BuildPlanOptions,
+  type BuildPlanPalette,
+} from "./render/plan-builder";
 export { applyToChart, type RenderHandles } from "./render/apply";
 export { patterns, type PatternName } from "./patterns";
 

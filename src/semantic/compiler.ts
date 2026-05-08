@@ -129,7 +129,7 @@ export function compileSemantic(program: Program): SemanticResult {
         break;
       }
       case "label":
-        labels.push({ barRef: stmt.ref, text: stmt.text });
+        labels.push({ barRef: stmt.ref, text: stmt.text, color: stmt.color });
         break;
       case "when":
         whenThen.push({ predicate: stmt.predicate, assignment: stmt.assignment });

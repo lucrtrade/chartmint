@@ -73,7 +73,7 @@ must a.high < c.low
 derive gap.low = a.high
 derive gap.high = c.low
 draw gap as box amber
-label b as displacement
+label b as displacement green
 when c.low <= gap.high then state.value = mitigated
 `);
     expect(model!.must).toHaveLength(1);
@@ -85,6 +85,7 @@ when c.low <= gap.high then state.value = mitigated
       color: "amber",
     });
     expect(model!.labels).toHaveLength(1);
+    expect(model!.labels[0]).toMatchObject({ barRef: "b", text: "displacement", color: "green" });
     expect(model!.whenThen).toHaveLength(1);
   });
 });

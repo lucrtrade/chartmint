@@ -76,11 +76,13 @@ bars a, b, c
 derive gap.low = a.high
 derive gap.high = c.low
 draw gap as box amber
-label b as displacement
+label b as displacement green
 `,
     );
     expect(errors).toEqual([]);
     expect(program!.statements.map((s) => s.kind)).toEqual(["derive", "derive", "draw", "label"]);
+    const label = program!.statements[3];
+    expect(label).toMatchObject({ kind: "label", ref: "b", text: "displacement", color: "green" });
   });
 
   it("parses when ... then with ident value", () => {

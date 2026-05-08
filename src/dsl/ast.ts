@@ -54,7 +54,7 @@ export type Statement =
   | { kind: "derive"; target: Target; expr: Expr; loc: SourceLoc }
   | { kind: "when"; predicate: Predicate; assignment: Assignment; loc: SourceLoc }
   | { kind: "draw"; target: string; drawKind: DrawKind; color?: Color; loc: SourceLoc }
-  | { kind: "label"; ref: string; text: string; loc: SourceLoc }
+  | { kind: "label"; ref: string; text: string; color?: Color; loc: SourceLoc }
   | { kind: "locate"; barRef: string; position: LocatePosition; loc: SourceLoc };
 
 export type Program = {

@@ -4,7 +4,23 @@ import type { Color } from "../dsl/ast";
 import { RenderError } from "../errors";
 import type { LevelOverlay, MarkerSpec, RenderPlan, ZoneOverlay } from "./plan";
 
-const COLOR_FILL: Record<Color, string> = {
+type ColorMap = Record<Color, string>;
+
+export type BuildPlanPalette = {
+  fill?: Partial<ColorMap>;
+  line?: Partial<ColorMap>;
+  defaults?: {
+    zoneFill?: string;
+    levelLine?: string;
+    marker?: string;
+  };
+};
+
+export type BuildPlanOptions = {
+  palette?: BuildPlanPalette;
+};
+
+const COLOR_FILL: ColorMap = {
   amber: "#f59e0b66",
   blue: "#3b82f666",
   green: "#22c55e66",
@@ -13,7 +29,7 @@ const COLOR_FILL: Record<Color, string> = {
   white: "#ffffff44",
 };
 
-const COLOR_LINE: Record<Color, string> = {
+const COLOR_LINE: ColorMap = {
   amber: "#f59e0b",
   blue: "#3b82f6",
   green: "#22c55e",
@@ -22,7 +38,48 @@ const COLOR_LINE: Record<Color, string> = {
   white: "#ffffff",
 };
 
-export function buildPlan(result: GenerateResult, model: SemanticModel): RenderPlan {
+export const DEFAULT_RENDER_PALETTE: Readonly<{
+  fill: ColorMap;
+  line: ColorMap;
+  defaults: {
+    zoneFill: string;
+    levelLine: string;
+    marker: string;
+  };
+}> = {
+  fill: COLOR_FILL,
+  line: COLOR_LINE,
+  defaults: {
+    zoneFill: COLOR_FILL.amber,
+    levelLine: COLOR_LINE.white,
+    marker: COLOR_LINE.blue,
+  },
+};
+
+function resolveColorMap(base: ColorMap, override?: Partial<ColorMap>): ColorMap {
+  return { ...base, ...override };
+}
+
+function resolvePalette(palette?: BuildPlanPalette) {
+  const fill = resolveColorMap(DEFAULT_RENDER_PALETTE.fill, palette?.fill);
+  const line = resolveColorMap(DEFAULT_RENDER_PALETTE.line, palette?.line);
+  return {
+    fill,
+    line,
+    defaults: {
+      zoneFill: palette?.defaults?.zoneFill ?? DEFAULT_RENDER_PALETTE.defaults.zoneFill,
+      levelLine: palette?.defaults?.levelLine ?? DEFAULT_RENDER_PALETTE.defaults.levelLine,
+      marker: palette?.defaults?.marker ?? DEFAULT_RENDER_PALETTE.defaults.marker,
+    },
+  };
+}
+
+export function buildPlan(
+  result: GenerateResult,
+  model: SemanticModel,
+  options?: BuildPlanOptions,
+): RenderPlan {
+  const palette = resolvePalette(options?.palette);
   const zones: ZoneOverlay[] = [];
   const levels: LevelOverlay[] = [];
 
@@ -44,7 +101,7 @@ export function buildPlan(result: GenerateResult, model: SemanticModel): RenderP
         price1: zone.low,
         time2: lastTime,
         price2: zone.high,
-        color: draw.color ? COLOR_FILL[draw.color] : COLOR_FILL.amber,
+        color: draw.color ? palette.fill[draw.color] : palette.defaults.zoneFill,
       });
     } else if (draw.targetKind === "level" && draw.drawKind === "line") {
       const price = result.derived.levels[draw.target];
@@ -57,7 +114,7 @@ export function buildPlan(result: GenerateResult, model: SemanticModel): RenderP
       levels.push({
         name: draw.target,
         price,
-        color: draw.color ? COLOR_LINE[draw.color] : COLOR_LINE.white,
+        color: draw.color ? palette.line[draw.color] : palette.defaults.levelLine,
         lineStyle: "solid",
         lineWidth: 2,
       });
@@ -78,7 +135,7 @@ export function buildPlan(result: GenerateResult, model: SemanticModel): RenderP
       time: bar.time,
       position: "aboveBar",
       shape: "circle",
-      color: COLOR_LINE.blue,
+      color: label.color ? palette.line[label.color] : palette.defaults.marker,
       text: label.text,
     });
   }

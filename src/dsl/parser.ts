@@ -287,7 +287,15 @@ class Parser {
     const ref = this.expect("ident", "expected bar identifier after 'label'");
     this.expectIdent("as", "expected 'as' in label statement");
     const text = this.expect("ident", "expected label text");
-    return { kind: "label", ref: ref.value, text: text.value, loc: start.loc };
+    let color: Color | undefined;
+    if (this.peek().kind === "ident" && this.peek().kind !== "newline") {
+      const colorTok = this.peek();
+      if (COLORS.has(colorTok.value)) {
+        this.advance();
+        color = colorTok.value as Color;
+      }
+    }
+    return { kind: "label", ref: ref.value, text: text.value, color, loc: start.loc };
   }
 
   private parseLocate(): Statement {
