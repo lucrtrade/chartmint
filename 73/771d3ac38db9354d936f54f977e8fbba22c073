@@ -1,0 +1,55 @@
+src/patterns/equal-highs.ts
+  s_f51fa12faa99ae::t_e9e83af8db4673 14-15
+src/dsl/parser.ts
+  s_f51fa12faa99ae::t_e99a466ada0f54 293-302,309-310,317-351,357-368
+  s_f51fa12faa99ae::t_74a9b5d11111e8 11-12
+  s_f51fa12faa99ae::t_a15e77fdaafbc2 164-165
+  s_f51fa12faa99ae::t_c11a2a096f36d7 303-308,311-316,352-356
+src/semantic/compiler.ts
+  s_f51fa12faa99ae::t_85b22eec9dfc4f 7
+  s_f51fa12faa99ae::t_ae2a328b69a648 152
+  s_f51fa12faa99ae::t_8c3fc9aa4b8b64 20-35
+src/dsl/parser.test.ts
+  s_f51fa12faa99ae::t_e971c2d5b353ea 115-198
+src/patterns/bullish-fvg.ts
+  s_f51fa12faa99ae::t_150c3f8d82359b 16-18
+src/semantic/compiler.test.ts
+  s_f51fa12faa99ae::t_ea63dd93e4775e 91-125
+src/generator/generate.test.ts
+  s_f51fa12faa99ae::t_d7128c03d7d72c 42-107
+src/dsl/validator.test.ts
+  s_f51fa12faa99ae::t_75a781a17eea03 78-104
+src/semantic/model.ts
+  s_f51fa12faa99ae::t_963217b3c77dad 30
+  s_f51fa12faa99ae::t_c11a2a096f36d7 5-10
+  s_f51fa12faa99ae::t_88f54b273d4793 3-4
+  s_f51fa12faa99ae::t_b4b9e08b2572b5 1
+src/dsl/ast.ts
+  s_f51fa12faa99ae::t_3f156a7dae4078 40-50,57-58
+  s_f51fa12faa99ae::t_c11a2a096f36d7 39
+src/patterns/bullish-bos.ts
+  s_f51fa12faa99ae::t_f3c9099ee1f2fc 14-15
+src/generator/generate.ts
+  s_f51fa12faa99ae::t_bdaf4ca84e004f 115-154,156-161,163-164
+  s_f51fa12faa99ae::t_f84f2da862be50 42,53
+  s_f51fa12faa99ae::t_61555f4aa58c90 5
+src/dsl/validator.ts
+  s_f51fa12faa99ae::t_7de1daad443c4f 105-122
+  s_f51fa12faa99ae::t_a566ebff2cf107 10-11,14-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "73771d3ac38db9354d936f54f977e8fbba22c073",
+  "prompts": {},
+  "sessions": {
+    "s_f51fa12faa99ae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ba0ae84-6466-4ecf-abce-388d62b9f690",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
