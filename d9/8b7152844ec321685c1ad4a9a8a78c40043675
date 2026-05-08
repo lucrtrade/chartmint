@@ -1,0 +1,23 @@
+src/patterns/bullish-bos.test.ts
+  s_f51fa12faa99ae::t_94a82995dc332a 12
+src/patterns/equal-highs.test.ts
+  s_f51fa12faa99ae::t_fd2f766267870d 12
+src/patterns/bullish-fvg.test.ts
+  s_f51fa12faa99ae::t_6447556cffc75e 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "d98b7152844ec321685c1ad4a9a8a78c40043675",
+  "prompts": {},
+  "sessions": {
+    "s_f51fa12faa99ae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ba0ae84-6466-4ecf-abce-388d62b9f690",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
