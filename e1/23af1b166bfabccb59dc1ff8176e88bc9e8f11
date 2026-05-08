@@ -1,0 +1,23 @@
+src/generator/generate.test.ts
+  s_f51fa12faa99ae::t_597c5b033c836f 133-134,136-137,139
+  s_f51fa12faa99ae::t_52ef15867d202b 127-129,132,135,138
+src/generator/generate.ts
+  s_f51fa12faa99ae::t_ef2e50b3b7db7b 54
+  s_f51fa12faa99ae::t_12b254347d27dd 55-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "e123af1b166bfabccb59dc1ff8176e88bc9e8f11",
+  "prompts": {},
+  "sessions": {
+    "s_f51fa12faa99ae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ba0ae84-6466-4ecf-abce-388d62b9f690",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
