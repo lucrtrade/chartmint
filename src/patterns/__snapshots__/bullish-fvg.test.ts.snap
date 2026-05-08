@@ -1,4 +1,47 @@
-// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`bullish_fvg > snapshot for seed=42 1`] = `
+{
+  "derived": {
+    "levels": {
+      "midline": 99.633830945,
+    },
+    "zones": {
+      "gap": {
+        "high": 99.68340389000001,
+        "low": 99.584258,
+      },
+    },
+  },
+  "lastThree": [
+    {
+      "close": 99.642531825,
+      "high": 99.7742846,
+      "low": 98.72026240000001,
+      "open": 98.852015175,
+      "time": 1699827200,
+    },
+    {
+      "close": 100.70896489,
+      "high": 101.82013389000001,
+      "low": 99.68340389000001,
+      "open": 100.28486489000001,
+      "time": 1699913600,
+    },
+    {
+      "close": 99.733083,
+      "high": 100.417221,
+      "low": 97.947665,
+      "open": 99.041368,
+      "time": 1700000000,
+    },
+  ],
+  "seed": 42,
+  "verification": [
+    true,
+  ],
+}
+`;
 
 exports[`bullish_fvg snapshot for seed=42 1`] = `
 {

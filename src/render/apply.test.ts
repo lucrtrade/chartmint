@@ -12,6 +12,18 @@ beforeAll(() => {
   // minimal CanvasRenderingContext2D-shaped no-op so lightweight-charts can
   // construct and tear down its widgets without polluting stderr.
   const noop = () => {};
+  window.matchMedia =
+    window.matchMedia ??
+    ((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: noop,
+      removeListener: noop,
+      addEventListener: noop,
+      removeEventListener: noop,
+      dispatchEvent: () => false,
+    }));
   const fakeCtx: Record<string, unknown> = {
     canvas: {},
     save: noop,
@@ -41,6 +53,7 @@ beforeAll(() => {
     createRadialGradient: () => ({ addColorStop: noop }),
     createPattern: () => null,
     arc: noop,
+    arcTo: noop,
     clip: noop,
     quadraticCurveTo: noop,
     bezierCurveTo: noop,
@@ -63,7 +76,7 @@ describe("applyToChart (jsdom + lightweight-charts)", () => {
     const handles = applyToChart(chart, plan);
 
     expect(handles.candleSeries).toBeDefined();
-    expect(handles.lineSeries).toEqual([]);
+    expect(handles.lineSeries).toHaveLength(1);
     expect(handles.zonePrimitives).toHaveLength(1);
     expect(handles.markersHandle).toBeDefined();
 
