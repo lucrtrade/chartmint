@@ -2,7 +2,7 @@ import type { CompileResult } from "../compile";
 import { compile } from "../compile";
 import { GenerationError } from "../errors";
 import type { Predicate } from "../dsl/ast";
-import type { SemanticModel } from "../semantic/model";
+import type { LocateSpec, SemanticModel } from "../semantic/model";
 import type { Candle } from "../render/plan";
 import { evaluatePredicate, type DerivedView, type EvalContext } from "../constraint/evaluator";
 import { generateBaseSeries } from "./base-series";
@@ -16,7 +16,6 @@ export type RefMap = Record<string, number>;
 export type PatternTemplate = {
   name: string;
   source: string;
-  mapping: (bars: Candle[]) => RefMap;
 };
 
 export type GenerateOptions = {
@@ -40,7 +39,7 @@ export function generate(
   spec: CompileResult | string | PatternTemplate,
   opts: GenerateOptions = {},
 ): GenerateResult {
-  const { compiled, mapping } = resolveSpec(spec);
+  const compiled = resolveSpec(spec);
   if (!compiled.semantic) {
     throw new Error(
       `cannot generate: compile produced ${compiled.errors.length} error(s); ` +
@@ -51,7 +50,7 @@ export function generate(
   const seed = resolveSeed(model, opts);
 
   const bars = generateBaseSeries(seed, model.series);
-  const refs = mapping ? mapping(bars) : defaultMapping(model.bars, bars.length);
+  const refs = resolveRefs(bars, model.bars, model.locates);
 
   const tolerance = opts.tolerance?.equalPrice ?? 0.001;
   const hookCtx: HookContext = { bars, refs, tolerance };
@@ -113,17 +112,56 @@ function checkMust(model: SemanticModel, ctx: EvalContext) {
   }));
 }
 
-function resolveSpec(spec: CompileResult | string | PatternTemplate): {
-  compiled: CompileResult;
-  mapping?: PatternTemplate["mapping"];
-} {
-  if (typeof spec === "string") {
-    return { compiled: compile(spec) };
+function resolveSpec(spec: CompileResult | string | PatternTemplate): CompileResult {
+  if (typeof spec === "string") return compile(spec);
+  if ("source" in spec) return compile(spec.source);
+  return spec;
+}
+
+function resolveRefs(bars: Candle[], barNames: string[], locates: Map<string, LocateSpec>): RefMap {
+  const refs: RefMap = {};
+  const unlocated: string[] = [];
+  const total = bars.length;
+
+  for (const name of barNames) {
+    const spec = locates.get(name);
+    if (!spec) {
+      unlocated.push(name);
+      continue;
+    }
+    if (spec.kind === "at") {
+      if (spec.anchor === "end") {
+        refs[name] = total - 1 - spec.offset;
+      } else if (spec.anchor === "mid") {
+        refs[name] = Math.floor(total / 2);
+      } else {
+        refs[name] = 0;
+      }
+    } else {
+      const { agg, field, within } = spec;
+      const lo = Math.floor((within?.start ?? 0) * total);
+      const hi = Math.floor((within?.end ?? 1) * total);
+      let bestIdx = lo;
+      let bestVal = agg === "highest" ? -Infinity : Infinity;
+      for (let i = lo; i < hi; i++) {
+        const v = bars[i]![field];
+        if (agg === "highest" ? v > bestVal : v < bestVal) {
+          bestVal = v;
+          bestIdx = i;
+        }
+      }
+      refs[name] = bestIdx;
+    }
   }
-  if ("source" in spec && "mapping" in spec) {
-    return { compiled: compile(spec.source), mapping: spec.mapping };
+
+  if (unlocated.length > 0) {
+    const offset = total - unlocated.length;
+    unlocated.forEach((name, i) => {
+      refs[name] = offset + i;
+    });
   }
-  return { compiled: spec };
+
+  return refs;
 }
 
 function resolveSeed(model: SemanticModel, opts: GenerateOptions): number {
@@ -132,13 +170,4 @@ function resolveSeed(model: SemanticModel, opts: GenerateOptions): number {
     return Math.floor(Math.random() * 0x7fffffff);
   }
   return model.seed;
-}
-
-function defaultMapping(barNames: string[], total: number): RefMap {
-  const refs: RefMap = {};
-  const offset = total - barNames.length;
-  barNames.forEach((name, i) => {
-    refs[name] = offset + i;
-  });
-  return refs;
 }

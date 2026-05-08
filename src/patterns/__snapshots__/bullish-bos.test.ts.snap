@@ -28,3 +28,32 @@ exports[`bullish_bos > snapshot for seed=42 1`] = `
   ],
 }
 `;
+
+exports[`bullish_bos snapshot for seed=42 1`] = `
+{
+  "brk": {
+    "close": 103.395378785,
+    "high": 103.67668805000001,
+    "low": 101.80129294999999,
+    "open": 102.082602215,
+    "time": 30,
+  },
+  "derived": {
+    "levels": {
+      "bos": 102.562881,
+    },
+    "zones": {},
+  },
+  "prev": {
+    "close": 101.986178,
+    "high": 102.562881,
+    "low": 100.270133,
+    "open": 100.998155,
+    "time": 23,
+  },
+  "seed": 42,
+  "verification": [
+    true,
+  ],
+}
+`;

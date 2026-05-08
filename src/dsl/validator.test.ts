@@ -75,3 +75,30 @@ when c.low <= gap.high then state.value = mitigated
     expect(errors).toEqual([]);
   });
 });
+
+describe("validate: locate", () => {
+  it("accepts valid locate at end", () => {
+    const errors = vp("pattern p\nbars a\nlocate a at end\n");
+    expect(errors).toEqual([]);
+  });
+
+  it("accepts valid locate as highest with within", () => {
+    const errors = vp("pattern p\nbars prev\nlocate prev as highest high within 0 0.8\n");
+    expect(errors).toEqual([]);
+  });
+
+  it("rejects locate on undeclared bar", () => {
+    const errors = vp("pattern p\nbars a\nlocate z at end\n");
+    expect(errors[0]?.message).toMatch(/unknown bar 'z'/);
+  });
+
+  it("rejects duplicate locate for same bar", () => {
+    const errors = vp("pattern p\nbars a\nlocate a at end\nlocate a at mid\n");
+    expect(errors.some((e) => /duplicate locate/.test(e.message))).toBe(true);
+  });
+
+  it("rejects within range where start >= end", () => {
+    const errors = vp("pattern p\nbars a\nlocate a as highest high within 0.8 0.2\n");
+    expect(errors.some((e) => /within/.test(e.message))).toBe(true);
+  });
+});

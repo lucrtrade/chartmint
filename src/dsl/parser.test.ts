@@ -112,3 +112,87 @@ label b as displacement
     expect(errors.length).toBeGreaterThan(0);
   });
 });
+
+describe("parse: locate statement", () => {
+  it("parses locate at end", () => {
+    const { program, errors } = parseText("pattern p\nbars a\nlocate a at end\n");
+    expect(errors).toEqual([]);
+    const stmt = program!.statements[0]!;
+    expect(stmt.kind).toBe("locate");
+    if (stmt.kind === "locate") {
+      expect(stmt.barRef).toBe("a");
+      expect(stmt.position.kind).toBe("at");
+      if (stmt.position.kind === "at") {
+        expect(stmt.position.anchor).toMatchObject({ kind: "end", offset: 0 });
+      }
+    }
+  });
+
+  it("parses locate at end - N", () => {
+    const { program, errors } = parseText("pattern p\nbars b\nlocate b at end - 2\n");
+    expect(errors).toEqual([]);
+    const stmt = program!.statements[0]!;
+    if (stmt.kind === "locate" && stmt.position.kind === "at") {
+      expect(stmt.position.anchor).toMatchObject({ kind: "end", offset: 2 });
+    } else {
+      throw new Error("unexpected AST");
+    }
+  });
+
+  it("parses locate at mid", () => {
+    const { program, errors } = parseText("pattern p\nbars a\nlocate a at mid\n");
+    expect(errors).toEqual([]);
+    const stmt = program!.statements[0]!;
+    if (stmt.kind === "locate" && stmt.position.kind === "at") {
+      expect(stmt.position.anchor).toMatchObject({ kind: "mid" });
+    } else {
+      throw new Error("unexpected AST");
+    }
+  });
+
+  it("parses locate at start", () => {
+    const { program, errors } = parseText("pattern p\nbars a\nlocate a at start\n");
+    expect(errors).toEqual([]);
+    const stmt = program!.statements[0]!;
+    if (stmt.kind === "locate" && stmt.position.kind === "at") {
+      expect(stmt.position.anchor).toMatchObject({ kind: "start" });
+    } else {
+      throw new Error("unexpected AST");
+    }
+  });
+
+  it("parses locate as highest field", () => {
+    const { program, errors } = parseText("pattern p\nbars prev\nlocate prev as highest high\n");
+    expect(errors).toEqual([]);
+    const stmt = program!.statements[0]!;
+    expect(stmt.kind).toBe("locate");
+    if (stmt.kind === "locate") {
+      expect(stmt.position.kind).toBe("as");
+      if (stmt.position.kind === "as") {
+        expect(stmt.position.search.agg).toBe("highest");
+        expect(stmt.position.search.field).toBe("high");
+        expect(stmt.position.search.within).toBeUndefined();
+      }
+    }
+  });
+
+  it("parses locate as lowest with within", () => {
+    const { program, errors } = parseText(
+      "pattern p\nbars prev\nlocate prev as lowest low within 0 0.8\n",
+    );
+    expect(errors).toEqual([]);
+    const stmt = program!.statements[0]!;
+    if (stmt.kind === "locate" && stmt.position.kind === "as") {
+      expect(stmt.position.search.agg).toBe("lowest");
+      expect(stmt.position.search.field).toBe("low");
+      expect(stmt.position.search.within).toEqual({ start: 0, end: 0.8 });
+    } else {
+      throw new Error("unexpected AST");
+    }
+  });
+
+  it("errors on unknown keyword after locate barRef", () => {
+    const { errors } = parseText("pattern p\nbars a\nlocate a near end\n");
+    expect(errors.length).toBeGreaterThan(0);
+  });
+});

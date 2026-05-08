@@ -88,3 +88,38 @@ when c.low <= gap.high then state.value = mitigated
     expect(model!.whenThen).toHaveLength(1);
   });
 });
+
+describe("compileSemantic: locate", () => {
+  it("compiles locate at end into locates map", () => {
+    const { model, errors } = compileText("pattern p\nbars a\nlocate a at end\n");
+    expect(errors).toEqual([]);
+    expect(model!.locates.get("a")).toMatchObject({ kind: "at", anchor: "end", offset: 0 });
+  });
+
+  it("compiles locate at end - N", () => {
+    const { model } = compileText("pattern p\nbars b\nlocate b at end - 2\n");
+    expect(model!.locates.get("b")).toMatchObject({ kind: "at", anchor: "end", offset: 2 });
+  });
+
+  it("compiles locate at mid", () => {
+    const { model } = compileText("pattern p\nbars a\nlocate a at mid\n");
+    expect(model!.locates.get("a")).toMatchObject({ kind: "at", anchor: "mid" });
+  });
+
+  it("compiles locate as highest with within", () => {
+    const { model } = compileText(
+      "pattern p\nbars prev\nlocate prev as highest high within 0 0.8\n",
+    );
+    expect(model!.locates.get("prev")).toMatchObject({
+      kind: "as",
+      agg: "highest",
+      field: "high",
+      within: { start: 0, end: 0.8 },
+    });
+  });
+
+  it("model has empty locates when no locate statements", () => {
+    const { model } = compileText("pattern p\nbars a, b, c\n");
+    expect(model!.locates.size).toBe(0);
+  });
+});

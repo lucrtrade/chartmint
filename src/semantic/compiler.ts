@@ -4,6 +4,7 @@ import type {
   DrawSpec,
   LabelSpec,
   LevelSpec,
+  LocateSpec,
   RangeSpec,
   SemanticModel,
   StateSpec,
@@ -15,6 +16,22 @@ export type SemanticResult = { model?: SemanticModel; errors: CompileError[] };
 
 export function compileSemantic(program: Program): SemanticResult {
   const errors: CompileError[] = [];
+
+  const locates = new Map<string, LocateSpec>();
+  for (const stmt of program.statements) {
+    if (stmt.kind !== "locate") continue;
+    if (stmt.position.kind === "at") {
+      const anchor = stmt.position.anchor;
+      locates.set(stmt.barRef, {
+        kind: "at",
+        anchor: anchor.kind,
+        offset: anchor.kind === "end" ? anchor.offset : 0,
+      });
+    } else {
+      const { agg, field, within } = stmt.position.search;
+      locates.set(stmt.barRef, { kind: "as", agg, field, within });
+    }
+  }
 
   const groups = new Map<string, Map<string, Expr>>(); // object → property → expr
   for (const stmt of program.statements) {
@@ -132,6 +149,7 @@ export function compileSemantic(program: Program): SemanticResult {
     bars: program.bars,
     series: program.series,
     seed: program.seed,
+    locates,
     zones,
     levels,
     ranges,

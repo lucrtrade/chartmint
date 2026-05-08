@@ -8,6 +8,8 @@ import type {
   Expr,
   Field,
   FuncName,
+  LocateAnchor,
+  LocateSearch,
   Predicate,
   Program,
   ShapeHint,
@@ -159,6 +161,8 @@ class Parser {
         return this.parseDraw();
       case "label":
         return this.parseLabel();
+      case "locate":
+        return this.parseLocate();
       default:
         throw new CompileError("parse", `unknown statement '${t.value}'`, t.loc);
     }
@@ -284,6 +288,82 @@ class Parser {
     this.expectIdent("as", "expected 'as' in label statement");
     const text = this.expect("ident", "expected label text");
     return { kind: "label", ref: ref.value, text: text.value, loc: start.loc };
+  }
+
+  private parseLocate(): Statement {
+    const start = this.advance();
+    const barRef = this.expect("ident", "expected bar identifier after 'locate'");
+    const kw = this.peek();
+    if (kw.kind !== "ident" || (kw.value !== "at" && kw.value !== "as")) {
+      throw new CompileError("parse", "expected 'at' or 'as' in locate statement", kw.loc);
+    }
+    this.advance();
+    if (kw.value === "at") {
+      const anchor = this.parseLocateAnchor();
+      return {
+        kind: "locate",
+        barRef: barRef.value,
+        position: { kind: "at", anchor },
+        loc: start.loc,
+      };
+    }
+    const search = this.parseLocateSearch();
+    return {
+      kind: "locate",
+      barRef: barRef.value,
+      position: { kind: "as", search },
+      loc: start.loc,
+    };
+  }
+
+  private parseLocateAnchor(): LocateAnchor {
+    const t = this.peek();
+    if (t.kind !== "ident") {
+      throw new CompileError("parse", "expected 'end', 'mid', or 'start' in locate", t.loc);
+    }
+    if (t.value === "mid") {
+      this.advance();
+      return { kind: "mid" };
+    }
+    if (t.value === "start") {
+      this.advance();
+      return { kind: "start" };
+    }
+    if (t.value === "end") {
+      this.advance();
+      if (this.peek().kind === "minus") {
+        this.advance();
+        const num = this.expect("number", "expected integer offset after '-'");
+        return { kind: "end", offset: Number(num.value) };
+      }
+      return { kind: "end", offset: 0 };
+    }
+    throw new CompileError("parse", `expected 'end', 'mid', or 'start', got '${t.value}'`, t.loc);
+  }
+
+  private parseLocateSearch(): LocateSearch {
+    const agg = this.peek();
+    if (agg.kind !== "ident" || (agg.value !== "highest" && agg.value !== "lowest")) {
+      throw new CompileError("parse", "expected 'highest' or 'lowest' in locate search", agg.loc);
+    }
+    this.advance();
+    const field = this.peek();
+    if (field.kind !== "ident" || !FIELDS.has(field.value)) {
+      throw new CompileError(
+        "parse",
+        "expected field name (open|high|low|close) in locate search",
+        field.loc,
+      );
+    }
+    this.advance();
+    let within: LocateSearch["within"];
+    if (this.peek().kind === "ident" && this.peek().value === "within") {
+      this.advance();
+      const s = this.expect("number", "expected start value after 'within'");
+      const e = this.expect("number", "expected end value after start");
+      within = { start: Number(s.value), end: Number(e.value) };
+    }
+    return { agg: agg.value as "highest" | "lowest", field: field.value as Field, within };
   }
 
   private parseTarget(): Target {

@@ -7,8 +7,20 @@ export function validate(program: Program): CompileError[] {
   const derived = new Map<string, Set<string>>(); // object → set of properties
   const stateSlots = new Set<string>();
 
+  const locatedBars = new Set<string>();
+
   // First pass: collect derives, check duplicates and bar refs in expressions.
   for (const stmt of program.statements) {
+    if (stmt.kind === "locate") {
+      if (locatedBars.has(stmt.barRef)) {
+        errors.push(
+          new CompileError("validate", `duplicate locate for bar '${stmt.barRef}'`, stmt.loc),
+        );
+      } else {
+        locatedBars.add(stmt.barRef);
+      }
+      continue;
+    }
     if (stmt.kind !== "derive") continue;
     const props = derived.get(stmt.target.object) ?? new Set<string>();
     if (props.has(stmt.target.property)) {
@@ -90,6 +102,24 @@ export function validate(program: Program): CompileError[] {
       case "derive":
         // already handled
         break;
+      case "locate": {
+        if (!bars.has(stmt.barRef)) {
+          errors.push(new CompileError("validate", `unknown bar '${stmt.barRef}'`, stmt.loc));
+        }
+        if (stmt.position.kind === "as" && stmt.position.search.within) {
+          const { start, end } = stmt.position.search.within;
+          if (start < 0 || end > 1 || start >= end) {
+            errors.push(
+              new CompileError(
+                "validate",
+                `invalid within range ${start}..${end} (must satisfy 0 <= start < end <= 1)`,
+                stmt.loc,
+              ),
+            );
+          }
+        }
+        break;
+      }
     }
   }
 

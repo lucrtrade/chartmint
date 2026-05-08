@@ -36,13 +36,26 @@ export type Assignment = {
   value: Expr | { kind: "ident"; name: string; loc: SourceLoc };
 };
 
+export type LocateAnchor = { kind: "end"; offset: number } | { kind: "mid" } | { kind: "start" };
+
+export type LocateSearch = {
+  agg: "highest" | "lowest";
+  field: Field;
+  within?: { start: number; end: number };
+};
+
+export type LocatePosition =
+  | { kind: "at"; anchor: LocateAnchor }
+  | { kind: "as"; search: LocateSearch };
+
 export type Statement =
   | { kind: "must"; predicate: Predicate; loc: SourceLoc }
   | { kind: "should"; preference: Preference; loc: SourceLoc }
   | { kind: "derive"; target: Target; expr: Expr; loc: SourceLoc }
   | { kind: "when"; predicate: Predicate; assignment: Assignment; loc: SourceLoc }
   | { kind: "draw"; target: string; drawKind: DrawKind; color?: Color; loc: SourceLoc }
-  | { kind: "label"; ref: string; text: string; loc: SourceLoc };
+  | { kind: "label"; ref: string; text: string; loc: SourceLoc }
+  | { kind: "locate"; barRef: string; position: LocatePosition; loc: SourceLoc };
 
 export type Program = {
   pattern: string;

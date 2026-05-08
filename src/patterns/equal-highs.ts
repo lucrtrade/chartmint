@@ -11,10 +11,7 @@ derive eqh.level = a.high
 draw eqh as line gray
 label a as liquidity
 label b as liquidity
+locate a at mid
+locate b at end - 1
 `,
-  mapping: (bars) => {
-    const a = Math.floor(bars.length / 2);
-    const b = bars.length - 2;
-    return { a, b };
-  },
 };

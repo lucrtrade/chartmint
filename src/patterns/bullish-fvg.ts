@@ -13,10 +13,8 @@ derive gap.low = a.high
 derive gap.high = c.low
 draw gap as box amber
 label b as displacement
+locate a at end - 2
+locate b at end - 1
+locate c at end
 `,
-  mapping: (bars) => ({
-    a: bars.length - 3,
-    b: bars.length - 2,
-    c: bars.length - 1,
-  }),
 };
