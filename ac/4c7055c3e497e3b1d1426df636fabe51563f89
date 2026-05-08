@@ -1,0 +1,19 @@
+package.json
+  s_f51fa12faa99ae::t_e8ab2f29672dba 42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "ac4c7055c3e497e3b1d1426df636fabe51563f89",
+  "prompts": {},
+  "sessions": {
+    "s_f51fa12faa99ae": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4ba0ae84-6466-4ecf-abce-388d62b9f690",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
