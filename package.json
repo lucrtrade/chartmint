@@ -39,6 +39,7 @@
     "format:check": "prettier --check .",
     "typecheck": "tsgo --noEmit",
     "ci": "bun run format:check && bun run lint && bun run typecheck && bun run test",
+    "prepublishOnly": "bun run ci && bun run build",
     "prepare": "husky"
   },
   "lint-staged": {
