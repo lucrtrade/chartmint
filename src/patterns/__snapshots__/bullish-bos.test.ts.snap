@@ -1,6 +1,6 @@
-// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`bullish_bos snapshot for seed=42 1`] = `
+exports[`bullish_bos > snapshot for seed=42 1`] = `
 {
   "brk": {
     "close": 103.395378785,
