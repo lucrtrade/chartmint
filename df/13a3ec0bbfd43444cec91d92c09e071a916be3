@@ -1,0 +1,20 @@
+src/patterns/bullish-fvg.ts
+  s_fbc060298b99e7::t_1e288144233d81 8
+  s_fbc060298b99e7::t_8bf43ce6bbe7e2 6-7,10-12,14-16,19,21,25-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "df13a3ec0bbfd43444cec91d92c09e071a916be3",
+  "prompts": {},
+  "sessions": {
+    "s_fbc060298b99e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "927fe6ac-0158-43e3-9e40-6570e02eda80",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "toadfanszz <toadfanszz@gmail.com>"
+    }
+  }
+}
