@@ -124,9 +124,18 @@ series 10
     }
   });
 
-  it("defaults to sequential integers when no timeframe given", () => {
+  it("defaults to daily timeframe and today-aligned endTime when no options given", () => {
+    const day = 86400;
+    const before = Math.floor(Date.now() / 1000 / day) * day;
     const compiled = compile("pattern p\nbars a\nseed 1\nseries 4\n");
     const r = generate(compiled, {});
-    expect(r.bars.map((b) => b.time)).toEqual([1, 2, 3, 4]);
+    const after = Math.floor(Date.now() / 1000 / day) * day;
+    const lastTime = r.bars[r.bars.length - 1]!.time;
+    expect(lastTime).toBeGreaterThanOrEqual(before);
+    expect(lastTime).toBeLessThanOrEqual(after + day);
+    const times = r.bars.map((b) => b.time);
+    for (let i = 1; i < times.length; i++) {
+      expect(times[i]! - times[i - 1]!).toBe(day);
+    }
   });
 });

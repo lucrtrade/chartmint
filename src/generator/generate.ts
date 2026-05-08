@@ -51,7 +51,9 @@ export function generate(
   const model = compiled.semantic;
   const seed = resolveSeed(model, opts);
 
-  const bars = generateBaseSeries(seed, model.series, 100, opts.timeframe, opts.endTime);
+  const timeframe = opts.timeframe ?? 86400;
+  const endTime = opts.endTime ?? Math.floor(Date.now() / 1000 / timeframe) * timeframe;
+  const bars = generateBaseSeries(seed, model.series, 100, timeframe, endTime);
   const refs = resolveRefs(bars, model.bars, model.locates);
 
   const tolerance = opts.tolerance?.equalPrice ?? 0.001;
